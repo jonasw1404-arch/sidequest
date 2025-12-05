@@ -13,8 +13,9 @@
     <button id="startButton">Codes lösen</button>
   </div>
 
-  <!-- Missions-Rechtecke -->
+  <!-- Missions-Rechtecke, von Anfang an unsichtbar -->
   <div id="missionContainer" style="display: none;">
+    <!-- Erste beiden Boxen -->
     <div class="missionBox">
       <h2>Mission Erklärung</h2>
       <p>Deine Aufgabe ist es, das Geheimnis des Hintergrunds zu entdecken und den Code zu knacken.</p>
@@ -29,48 +30,27 @@
         <li>Bericht abgeben</li>
       </ol>
     </div>
-  </div>
 
-  <!-- Rätsel-Rechtecke -->
-  <div id="raetselContainer" style="display: none;">
-    <div class="raetselBox">
-      <h3>Rätsel 1: Geheimzahl</h3>
-      <p>Finde die 4-stellige Zahl, die das Rätsel löst.</p>
-      <input type="text" maxlength="4" class="raetselInput">
-      <button class="checkButton">Prüfen</button>
-      <p class="resultText"></p>
+    <!-- Neue Rätsel-Boxen -->
+    <div class="missionBox">
+      <h2>Rätsel 1: Zahlenzauber</h2>
+      <p>Finde die versteckte Zahlenkombination im Hintergrund und entschlüssele sie.</p>
     </div>
-
-    <div class="raetselBox">
-      <h3>Rätsel 2: Code-Knacker</h3>
-      <p>Gib die richtige 4-stellige Kombination ein.</p>
-      <input type="text" maxlength="4" class="raetselInput">
-      <button class="checkButton">Prüfen</button>
-      <p class="resultText"></p>
+    <div class="missionBox">
+      <h2>Rätsel 2: Farbcode</h2>
+      <p>Die Farben verraten dir Hinweise. Kombiniere sie richtig, um weiterzukommen.</p>
     </div>
-
-    <div class="raetselBox">
-      <h3>Rätsel 3: Zahlen-Geheimnis</h3>
-      <p>Welche 4 Ziffern passen hier?</p>
-      <input type="text" maxlength="4" class="raetselInput">
-      <button class="checkButton">Prüfen</button>
-      <p class="resultText"></p>
+    <div class="missionBox">
+      <h2>Rätsel 3: Logikrätsel</h2>
+      <p>Analysiere die Hinweise und löse das logische Puzzle, um den nächsten Schritt zu erhalten.</p>
     </div>
-
-    <div class="raetselBox">
-      <h3>Rätsel 4: Geheimcode</h3>
-      <p>Tippe die richtige 4-stellige Kombination ein.</p>
-      <input type="text" maxlength="4" class="raetselInput">
-      <button class="checkButton">Prüfen</button>
-      <p class="resultText"></p>
+    <div class="missionBox">
+      <h2>Rätsel 4: Symbolsuche</h2>
+      <p>Bestimmte Symbole geben dir den Code. Finde alle und setze sie korrekt zusammen.</p>
     </div>
-
-    <div class="raetselBox">
-      <h3>Rätsel 5: Der finale Code</h3>
-      <p>Finde die letzte 4-stellige Kombination.</p>
-      <input type="text" maxlength="4" class="raetselInput">
-      <button class="checkButton">Prüfen</button>
-      <p class="resultText"></p>
+    <div class="missionBox">
+      <h2>Rätsel 5: Geheimschrift</h2>
+      <p>Entschlüssle die mysteriöse Nachricht, die dir den finalen Code verrät.</p>
     </div>
   </div>
 
