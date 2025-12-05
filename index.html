@@ -3,91 +3,162 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Responsive Background (16:9)</title>
+  <title>Mission Interface</title>
   <style>
-    /* Grundlayout – kein Scrollen */
     html, body {
-      height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden; /* kein Scrollen */
-      background: #000; /* schwarzer Hintergrund hinter dem Bild */
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: Arial, sans-serif;
+      color: #fff;
     }
 
-    /* Container zentriert das Bild sowohl horizontal als auch vertical */
+    /* Hintergrundbild */
     #bg-container {
       position: fixed;
-      inset: 0; /* top/right/bottom/left: 0 */
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent; /* Hintergrund schwarz bleibt von Body */
+      background: #000;
     }
 
-    /* Bild: wir steuern Größe per JS (width/height auto/100%)
-       zusätzlich als Sicherheitsnetz: max-width/max-height = 100% verhindert Überschuss */
     #bg-img {
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;    /* initial */
-      height: auto;   /* initial */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
       user-select: none;
       -webkit-user-drag: none;
-      image-rendering: auto;
     }
 
-    /* Optional: verhindert dass bei sehr kleinen Viewports Ränder entstehen */
-    @media (max-width: 320px) {
-      #bg-img { max-width: 120%; max-height: 120%; }
+    /* Start Overlay */
+    #start-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(128,128,128,0.7);
+      padding: 40px;
+      text-align: center;
+      border-radius: 10px;
+      z-index: 1;
+    }
+
+    #start-overlay h1 {
+      margin: 0 0 20px 0;
+      font-size: 2em;
+    }
+
+    #start-overlay button {
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #fff;
+      color: #000;
+    }
+
+    /* Übersicht Overlay */
+    #mission-overview {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      z-index: 1;
+    }
+
+    .mission-box {
+      background: rgba(128,128,128,0.8);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    .mission-box h2 {
+      margin-top: 0;
+    }
+
+    .mission-box ul {
+      padding-left: 20px;
     }
   </style>
 </head>
 <body>
+
   <div id="bg-container">
-    <!-- Leg `hintergrund.jpg` in dasselbe Verzeichnis wie diese Datei -->
-    <img id="bg-img" src="hintergrund.jpg" alt="Hintergrund" decoding="async" />
+    <img id="bg-img" src="hintergrund.jpg" alt="Hintergrund" />
+  </div>
+
+  <div id="start-overlay">
+    <h1>Mission</h1>
+    <button id="start-button">Codes lösen</button>
+  </div>
+
+  <div id="mission-overview">
+    <div class="mission-box">
+      <h2>Missionsbefehl</h2>
+      <p>Hier steht ein Satz mit der Beschreibung der Mission.</p>
+    </div>
+    <div class="mission-box">
+      <h2>Vorgehensweise</h2>
+      <ul>
+        <li>Punkt 1</li>
+        <li>Punkt 2</li>
+        <li>Punkt 3</li>
+        <li>Punkt 4</li>
+        <li>Punkt 5</li>
+      </ul>
+    </div>
   </div>
 
   <script>
+    // Hintergrund responsive, behält 16:9 ohne Stauchen
     (function() {
       const img = document.getElementById('bg-img');
-      const IMAGE_RATIO = 16 / 9;
-
-      function applySizing() {
+      function resizeBackground() {
         const w = window.innerWidth;
         const h = window.innerHeight;
-        const screenRatio = w / h;
+        const imgRatio = 16/9;
+        const screenRatio = w/h;
 
-        if (screenRatio >= IMAGE_RATIO) {
-          img.style.width = '100%';
+        if (screenRatio > imgRatio) {
+          img.style.width = w + 'px';
           img.style.height = 'auto';
         } else {
+          img.style.height = h + 'px';
           img.style.width = 'auto';
-          img.style.height = '100%';
         }
       }
 
-      let rAF = null;
-      function onResize() {
-        if (rAF !== null) cancelAnimationFrame(rAF);
-        rAF = requestAnimationFrame(() => {
-          applySizing();
-          rAF = null;
-        });
-      }
-
-      if (img.complete) {
-        applySizing();
-      } else {
-        img.addEventListener('load', applySizing, { once: true });
-        setTimeout(applySizing, 50);
-      }
-
-      window.addEventListener('resize', onResize);
-      window.addEventListener('orientationchange', onResize);
-      document.addEventListener('DOMContentLoaded', applySizing);
+      window.addEventListener('resize', resizeBackground);
+      window.addEventListener('orientationchange', resizeBackground);
+      window.addEventListener('load', resizeBackground);
     })();
+
+    // Start-Button Logik
+    const startButton = document.getElementById('start-button');
+    const startOverlay = document.getElementById('start-overlay');
+    const missionOverview = document.getElementById('mission-overview');
+
+    startButton.addEventListener('click', () => {
+      startOverlay.style.display = 'none';
+      missionOverview.style.display = 'block';
+    });
   </script>
+
 </body>
 </html>
