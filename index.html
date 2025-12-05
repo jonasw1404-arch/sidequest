@@ -2,56 +2,60 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rätsel App</title>
+    <title>Code Prüfer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <audio id="backgroundMusic" src="musik.mp3" loop></audio>
-
+<!-- Startscreen -->
+<div class="startScreen" id="startScreen">
+    <h2>Bereit? Klicke, um die Codes zu lösen!</h2>
     <button id="startButton">Start</button>
+</div>
 
-    <div id="codeContainer" class="hidden">
+<!-- Code-Eingabe Container -->
+<div id="codeContainer" class="hidden">
 
-        <!-- 5 Codefelder -->
-        <div class="code-box">
-            <h2>Codefeld 1</h2>
-            <input type="text" id="code1">
-            <button onclick="checkCode(1)">OK</button>
-            <p id="result1"></p>
-        </div>
-
-        <div class="code-box">
-            <h2>Codefeld 2</h2>
-            <input type="text" id="code2">
-            <button onclick="checkCode(2)">OK</button>
-            <p id="result2"></p>
-        </div>
-
-        <div class="code-box">
-            <h2>Codefeld 3</h2>
-            <input type="text" id="code3">
-            <button onclick="checkCode(3)">OK</button>
-            <p id="result3"></p>
-        </div>
-
-        <div class="code-box">
-            <h2>Codefeld 4</h2>
-            <input type="text" id="code4">
-            <button onclick="checkCode(4)">OK</button>
-            <p id="result4"></p>
-        </div>
-
-        <div class="code-box">
-            <h2>Codefeld 5</h2>
-            <input type="text" id="code5">
-            <button onclick="checkCode(5)">OK</button>
-            <p id="result5"></p>
-        </div>
-
+    <div class="code-box">
+        <h3>Codefeld 1</h3>
+        <input type="text" id="code1" maxlength="4">
+        <button onclick="checkCode(1)">OK</button>
+        <div class="message" id="msg1"></div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="code-box">
+        <h3>Codefeld 2</h3>
+        <input type="text" id="code2" maxlength="4">
+        <button onclick="checkCode(2)">OK</button>
+        <div class="message" id="msg2"></div>
+    </div>
+
+    <div class="code-box">
+        <h3>Codefeld 3</h3>
+        <input type="text" id="code3" maxlength="4">
+        <button onclick="checkCode(3)">OK</button>
+        <div class="message" id="msg3"></div>
+    </div>
+
+    <div class="code-box">
+        <h3>Codefeld 4</h3>
+        <input type="text" id="code4" maxlength="4">
+        <button onclick="checkCode(4)">OK</button>
+        <div class="message" id="msg4"></div>
+    </div>
+
+    <div class="code-box">
+        <h3>Codefeld 5</h3>
+        <input type="text" id="code5" maxlength="4">
+        <button onclick="checkCode(5)">OK</button>
+        <div class="message" id="msg5"></div>
+    </div>
+
+</div>
+
+<!-- Hintergrundmusik -->
+<audio id="backgroundMusic" src="musik.mp3" loop></audio>
+
+<script src="script.js"></script>
 </body>
 </html>
