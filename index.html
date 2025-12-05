@@ -12,88 +12,83 @@
     <h1>DIRECTORATE OF COVERT OPERATIONS — SECURE TERMINAL v3.7</h1>
     <p>ZUGANG NUR FÜR AUTORISIERTE FELDAGENTEN</p>
     <p>Unbefugter Zugriff wird protokolliert.</p>
-    <button id="startButton">Code lösen</button>
+    <button id="startButton">Code lösen & Musik starten</button>
 </div>
 
 <!-- HAUPTSEITE -->
 <div class="mainContainer" id="mainContainer" style="display:none;">
 
-    <!-- MISSION BRIEFING -->
-    <section class="box" id="briefingBox">
-        <h2>Mission Briefing</h2>
-        <p>Agent, Ihre Anwesenheit wurde bestätigt. Eine neue vertrauliche Operation wartet auf Sie.</p>
-    </section>
-
-    <!-- AUFTRAG -->
-    <section class="box" id="auftragBox">
-        <h2>Auftrag</h2>
-        <p>Unter dem Codenamen „Project Manhattan Echo“ wurden in der Stadt New York insgesamt fünf verschlüsselte Informationsknoten entdeckt. Jeder Knoten enthält ein manipuliertes Bildmaterial aus öffentlich zugänglichen Quellen.</p>
-        <p>Ihr Auftrag:
-            <ol>
-                <li>Analysieren Sie den Zielsektor auf der bereitgestellten Karte.</li>
-                <li>Lokalisieren Sie in Google Street View den exakten Standpunkt.</li>
-                <li>Identifizieren Sie die entfernten Zeichen, Nummern oder Namen.</li>
-                <li>Geben Sie diese in das dafür vorgesehene Feld ein.</li>
-            </ol>
-        </p>
-        <p>Nur wenn alle fünf Codes korrekt entschlüsselt wurden, erhalten Sie Zugriff auf die finale Identität des Absenders.</p>
-    </section>
-
-    <!-- RÄTSEL -->
-    <section class="puzzles" id="puzzlesContainer">
-        <!-- Rätsel 1 -->
-        <div class="puzzle box">
-            <h3>Rätsel 1 – „Operation Riverside“</h3>
-            <p>In den Schatten der Upper West Side wurde ein Lieferfahrzeug gesehen, auf dem wesentliche Identifikationsmerkmale entfernt wurden. Ihre Aufgabe ist es, das Original zu finden. Navigieren Sie im markierten Bereich entlang der Riverside Drive-Sektoren, bis Sie die Szene rekonstruieren können.</p>
-            <label>Agent, übertragen Sie den fehlenden Code:</label>
-            <input type="text" class="codeInput" data-code="1234">
+    <div class="gridContainer">
+        <!-- MISSION BRIEFING -->
+        <div class="box" id="briefingBox">
+            <h2>Mission Briefing</h2>
+            <p>Agent, Ihre Anwesenheit wurde bestätigt. Eine neue vertrauliche Operation wartet auf Sie.</p>
         </div>
 
-        <!-- Rätsel 2 -->
-        <div class="puzzle box">
-            <h3>Rätsel 2 – „Codename Brooklyn Line“</h3>
-            <p>Ein Straßenzug in Southern Brooklyn zeigt ein manipuliertes Schaufenster. Der dort normalerweise sichtbare Geschäftsname wurde gelöscht. Finden Sie die wahre Bezeichnung des Ladens.</p>
-            <label>Agent, authentifizieren Sie den entdeckten Begriff:</label>
-            <input type="text" class="codeInput" data-code="5678">
+        <!-- AUFTRAG -->
+        <div class="box" id="auftragBox">
+            <h2>Auftrag</h2>
+            <p>Unter dem Codenamen „Project Manhattan Echo“ wurden in der Stadt New York insgesamt fünf verschlüsselte Informationsknoten entdeckt. Jeder Knoten enthält ein manipuliertes Bildmaterial aus öffentlich zugänglichen Quellen.</p>
+            <p>Ihr Auftrag:
+                <ol>
+                    <li>Analysieren Sie den Zielsektor auf der bereitgestellten Karte.</li>
+                    <li>Lokalisieren Sie in Google Street View den exakten Standpunkt.</li>
+                    <li>Identifizieren Sie die entfernten Zeichen, Nummern oder Namen.</li>
+                    <li>Geben Sie diese in das dafür vorgesehene Feld ein.</li>
+                </ol>
+            </p>
         </div>
 
-        <!-- Rätsel 3 -->
-        <div class="puzzle box">
-            <h3>Rätsel 3 – „Mission Midtown Frequency“</h3>
-            <p>Im Gebiet rund um Midtown verschwinden selten Informationen zufällig. Auf einem Werbeplakat in der Nähe eines großen Straßenknotens fehlt eine kritische Telefonnummer. Lokalisieren Sie die echte Nummer, bevor der Hinweis verloren geht.</p>
-            <label>Agent, geben Sie die vollständige Zahlenfolge ein:</label>
-            <input type="text" class="codeInput" data-code="9012">
+        <!-- RÄTSEL -->
+        <div class="box puzzle" id="puzzlesContainer">
+            <div class="puzzleItem">
+                <h3>Rätsel 1 – „Operation Riverside“</h3>
+                <p>In den Schatten der Upper West Side wurde ein Lieferfahrzeug gesehen. Ihre Aufgabe ist es, das Original zu finden.</p>
+                <label>Agent, übertragen Sie den fehlenden Code:</label>
+                <input type="text" class="codeInput" data-code="1234">
+            </div>
+
+            <div class="puzzleItem">
+                <h3>Rätsel 2 – „Codename Brooklyn Line“</h3>
+                <p>Ein Straßenzug in Southern Brooklyn zeigt ein manipuliertes Schaufenster. Finden Sie die wahre Bezeichnung des Ladens.</p>
+                <label>Agent, authentifizieren Sie den entdeckten Begriff:</label>
+                <input type="text" class="codeInput" data-code="5678">
+            </div>
+
+            <div class="puzzleItem">
+                <h3>Rätsel 3 – „Mission Midtown Frequency“</h3>
+                <p>Im Gebiet rund um Midtown fehlt eine kritische Telefonnummer. Lokalisieren Sie die echte Nummer.</p>
+                <label>Agent, geben Sie die vollständige Zahlenfolge ein:</label>
+                <input type="text" class="codeInput" data-code="9012">
+            </div>
+
+            <div class="puzzleItem">
+                <h3>Rätsel 4 – „Operation East Village Cipher“</h3>
+                <p>Die Aufschrift eines Restaurants wurde unkenntlich gemacht. Finden Sie die ursprüngliche Markierung.</p>
+                <label>Agent, tragen Sie die restaurierte Bezeichnung ein:</label>
+                <input type="text" class="codeInput" data-code="3456">
+            </div>
+
+            <div class="puzzleItem">
+                <h3>Rätsel 5 – „Harlem Specter“</h3>
+                <p>Ein Verkehrsschild in Harlem wurde im Bild unlesbar gemacht. Finden Sie das Original.</p>
+                <label>Agent, senden Sie den finalen Sektorcode:</label>
+                <input type="text" class="codeInput" data-code="7890">
+            </div>
+
+            <button id="submitCodes">Codes überprüfen</button>
+            <div id="feedback"></div>
         </div>
 
-        <!-- Rätsel 4 -->
-        <div class="puzzle box">
-            <h3>Rätsel 4 – „Operation East Village Cipher“</h3>
-            <p>In den schmalen Straßen des East Village wurde die Aufschrift eines Restaurants unkenntlich gemacht. Ihre Aufgabe ist es, die ursprüngliche Markierung ausfindig zu machen. Nur exakte Schreibweise wird akzeptiert.</p>
-            <label>Agent, tragen Sie die restaurierte Bezeichnung ein:</label>
-            <input type="text" class="codeInput" data-code="3456">
+        <!-- FINALE FREISCHALTUNG -->
+        <div class="box" id="finalSection" style="display:none;">
+            <h2>PROJECT MANHATTAN ECHO — ABSCHLUSSKODE ENTSCHLÜSSELT</h2>
+            <p>Agent, Sie haben herausragende Arbeit geleistet. Mit der Aktivierung aller fünf Datenknoten wurde der verschlüsselte Identitätsanhang freigeschaltet.</p>
+            <p>INITIATING IDENTITY REVEAL… Standby… Dekodierung abgeschlossen.</p>
+            <p>Der Auftraggeber war: Karl Klein</p>
+            <p>Ende der Übertragung. Dieses Terminal schließt sich in 10 Sekunden automatisch.</p>
         </div>
-
-        <!-- Rätsel 5 -->
-        <div class="puzzle box">
-            <h3>Rätsel 5 – „Harlem Specter“</h3>
-            <p>Ein Verkehrsschild in Harlem wurde im manipulierten Bild unlesbar gemacht. Finden Sie das Original und übertragen Sie den exakten Wortlaut bzw. die Zahlen.</p>
-            <label>Agent, senden Sie den finalen Sektorcode:</label>
-            <input type="text" class="codeInput" data-code="7890">
-        </div>
-
-        <button id="submitCodes">Codes überprüfen</button>
-        <div id="feedback"></div>
-    </section>
-
-    <!-- FINALE FREISCHALTUNG -->
-    <section class="box" id="finalSection" style="display:none;">
-        <h2>PROJECT MANHATTAN ECHO — ABSCHLUSSKODE ENTSCHLÜSSELT</h2>
-        <p>Agent, Sie haben herausragende Arbeit geleistet. Mit der Aktivierung aller fünf Datenknoten wurde der verschlüsselte Identitätsanhang freigeschaltet.</p>
-        <p>INITIATING IDENTITY REVEAL… Standby… Dekodierung abgeschlossen.</p>
-        <p>Der Auftraggeber war: Karl Klein</p>
-        <p>Ende der Übertragung. Dieses Terminal schließt sich in 10 Sekunden automatisch.</p>
-    </section>
-
+    </div>
 </div>
 
 <!-- Musik -->
