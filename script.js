@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const input2 = document.getElementById("codeInput2");
     const button2 = document.getElementById("checkButton2");
     const message2 = document.getElementById("message2");
-    const correctCode2 = "1234";
+    const correctCode2 = "9876";
 
     // Startbutton klick → Musik + Codecontainer anzeigen
     startButton.addEventListener("click", function() {
