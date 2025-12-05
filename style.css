@@ -1,17 +1,26 @@
-/* Vollbild und Hintergrundbild */
+/* Grundlegendes Layout */
 html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
   height: 100%;
   width: 100%;
-  background-color: black;
+  background-color: #0b0f19;
   background-image: url('hintergrund.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto Mono', monospace;
   color: white;
+}
+
+/* TOP SECRET Header */
+.topsecret {
+  font-size: 20px;
+  color: #ff2d2d;
+  letter-spacing: 3px;
+  text-align: center;
+  margin: 20px 0;
 }
 
 /* Start-Rechteck */
@@ -21,10 +30,11 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
   padding: 40px 60px;
   text-align: center;
   border-radius: 10px;
-  z-index: 100; /* immer oben */
+  z-index: 100;
 }
 
 #startBox h1 {
@@ -32,13 +42,20 @@ html, body {
 }
 
 #startBox button {
-  padding: 10px 20px;
+  padding: 12px 25px;
   font-size: 16px;
   cursor: pointer;
-  border: none;
+  border: 1px solid #0a4fa3;
   border-radius: 5px;
-  background-color: white;
-  color: black;
+  background-color: #0a4fa3;
+  color: white;
+  box-shadow: 0 0 10px #69a7ff55;
+  transition: all 0.2s ease-in-out;
+}
+
+#startBox button:hover {
+  box-shadow: 0 0 20px #69a7ffaa;
+  transform: translateY(-2px);
 }
 
 /* Missions-Rechtecke */
@@ -50,8 +67,8 @@ html, body {
   transform: translate(-50%, -50%);
   width: 90%;
   max-width: 1200px;
-  z-index: 50; /* unter Start-Rechteck */
-  display: flex;   /* wird per JS sichtbar */
+  z-index: 50;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -59,11 +76,42 @@ html, body {
 .missionBox {
   flex: 1;
   min-width: 250px;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
   padding: 20px;
+  border-left: 3px solid #f5c518;
   border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .missionBox h2 {
   margin-top: 0;
+}
+
+/* Optionales Overlay für Noise/TV-Effect */
+.overlay-noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url('static-noise.png'); /* optionales Noise-Bild */
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+}
+
+/* Optional Typing-Animation (falls du später Text animieren willst) */
+.typing {
+  overflow: hidden;
+  border-right: .15em solid #fff;
+  white-space: nowrap;
+  animation: typing 3s steps(30,end), blink .7s infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  0%, 50%, 100% { border-color: transparent }
+  25%, 75% { border-color: white }
 }
