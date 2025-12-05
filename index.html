@@ -1,36 +1,35 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Start-Rechteck -->
-  <div id="startBox" class="centerBox">
-    <h1>Mission Start?</h1>
-    <button id="startButton">Codes lösen</button>
-  </div>
+/* Zentriertes Start-Rechteck */
+.centerBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 40px 60px;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 20; /* höher als Mission-Rechtecke */
+}
 
-  <!-- Mission-Container, standard unsichtbar -->
-  <div id="missionContainer" class="hidden">
-    <div class="missionBox">
-      <h2>Mission Erklärung</h2>
-      <p>Deine Aufgabe ist es, das Geheimnis des Hintergrunds zu entdecken und den Code zu knacken.</p>
-    </div>
-    <div class="missionBox">
-      <h2>Auftrag</h2>
-      <ol>
-        <li>Hinweise sammeln</li>
-        <li>Rätsel lösen</li>
-        <li>Code entschlüsseln</li>
-        <li>Mission bestätigen</li>
-        <li>Bericht abgeben</li>
-      </ol>
-    </div>
-  </div>
+/* Mission Container, unsichtbar */
+#missionContainer {
+  display: none; /* unsichtbar von Anfang an */
+  gap: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1200px;
+  z-index: 10; /* niedriger als Start-Rechteck */
+  flex-wrap: wrap; /* falls Bildschirm sehr schmal */
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+/* Mission-Rechtecke */
+.missionBox {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 250px; /* verhindert zu kleine Boxen */
+}
