@@ -11,8 +11,8 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed; /* Hintergrund bleibt fixiert */
-  overflow-x: hidden; /* horizontales Scrollen verhindern */
+  background-attachment: fixed; /* Hintergrund fixiert */
+  overflow-x: hidden; /* kein horizontales Scrollen */
 }
 
 /* Start-Rechteck */
@@ -46,7 +46,7 @@ html, body {
 #missionContainer {
   width: 90%;
   max-width: 1400px;
-  margin: 50px auto; /* Abstand vom oberen Rand */
+  margin: 50px auto;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -55,7 +55,7 @@ html, body {
 /* Reihen */
 .missionRow {
   display: flex;
-  flex-wrap: wrap; /* rutschen untereinander, wenn zu schmal */
+  flex-wrap: wrap; /* untereinander, wenn zu schmal */
   gap: 20px;
   justify-content: center;
 }
@@ -78,6 +78,33 @@ html, body {
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+}
+
+/* Eingabefelder und Buttons */
+.codeInput {
+  width: 70%;
+  padding: 5px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+}
+
+.checkButton {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+/* Ergebnistext */
+.result {
+  margin-top: 5px;
+  font-weight: bold;
 }
 
 /* Überschriften */
