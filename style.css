@@ -6,11 +6,17 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1e68ff;
+    
+    /* Hintergrundbild */
+    background-color: #1e68ff;               /* Fallback-Farbe */
     background-image: url('hintergrund.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size: 100% auto;              /* Breite = Bildschirm, Höhe automatisch */
+    background-position: center top;         /* Zentriert oben */
+    background-repeat: no-repeat;            /* Kein Duplizieren */
+}
+
+body {
+    min-height: 100vh;
 }
 
 /* Startscreen */
@@ -75,4 +81,17 @@ button {
 
 .shake {
   animation: shake 0.5s;
+}
+
+/* Mobile-Responsive: Felder untereinander bei schmalem Bildschirm */
+@media (max-width: 768px) {
+    #codeContainer {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .codeBox {
+        width: 80%;
+    }
 }
