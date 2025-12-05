@@ -24,7 +24,7 @@ html, body {
   padding: 40px 60px;
   text-align: center;
   border-radius: 10px;
-  z-index: 100;
+  z-index: 100; /* immer oben */
 }
 
 #startBox h1 {
@@ -43,7 +43,6 @@ html, body {
 
 /* Missions-Rechtecke */
 #missionContainer {
-  display: none; /* unsichtbar von Anfang an */
   gap: 20px;
   position: fixed;
   top: 50%;
@@ -51,8 +50,8 @@ html, body {
   transform: translate(-50%, -50%);
   width: 90%;
   max-width: 1200px;
-  z-index: 50;
-  display: flex;
+  z-index: 50; /* unter Start-Rechteck */
+  display: flex;   /* wird per JS sichtbar */
   flex-wrap: wrap;
   justify-content: center;
 }
