@@ -1,50 +1,59 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #1e68ff;
-    background-image: url('hintergrund.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white;
-}
+document.addEventListener("DOMContentLoaded", function() {
+    const startScreen = document.getElementById("startScreen");
+    const startButton = document.getElementById("startButton");
+    const mainContainer = document.getElementById("mainContainer");
+    const music = document.getElementById("backgroundMusic");
+    const submitButton = document.getElementById("submitCodes");
+    const feedback = document.getElementById("feedback");
+    const codeInputs = document.querySelectorAll(".codeInput");
+    const puzzlesContainer = document.getElementById("puzzlesContainer");
+    const briefingBox = document.getElementById("briefingBox");
+    const auftragBox = document.getElementById("auftragBox");
+    const finalSection = document.getElementById("finalSection");
 
-.startScreen, .box {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 25px 35px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    max-width: 900px;
-    margin: 20px auto;
-}
+    startButton.addEventListener("click", function() {
+        startScreen.style.display = "none";
+        mainContainer.style.display = "block";
+        music.volume = 0.5;
 
-.startScreen button, .mainContainer button {
-    padding: 10px 20px;
-    font-size: 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 15px;
-}
+        // Mobile Autoplay Fix
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Autoplay auf Mobile verhindert, Benutzer muss einmal klicken");
+            });
+        }
+    });
 
-.puzzle {
-    margin-top: 30px;
-}
+    submitButton.addEventListener("click", function() {
+        let allCorrect = true;
+        let feedbackMessages = [];
 
-.puzzle input {
-    padding: 8px;
-    font-size: 16px;
-    width: 250px;
-    border-radius: 5px;
-    border: none;
-    margin-top: 5px;
-}
+        codeInputs.forEach((input, index) => {
+            const correctCode = input.dataset.code;
+            if (input.value === correctCode) {
+                feedbackMessages.push(`Rätsel ${index+1}: Bestätigung erhalten. Sektor erfolgreich entschlüsselt.`);
+            } else {
+                const errorMsg = Math.random() < 0.5 ?
+                    "FEHLER – Übertragung ungenau. Prüfen Sie den Standort erneut, Agent." :
+                    "Codesequenz ungültig. Die Zentrale fordert Präzision.";
+                feedbackMessages.push(`Rätsel ${index+1}: ${errorMsg}`);
+                allCorrect = false;
+            }
+        });
 
-#feedback {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-}
+        feedback.innerHTML = feedbackMessages.join("<br>");
+
+        if (allCorrect) {
+            puzzlesContainer.style.display = "none";
+            briefingBox.style.display = "none";
+            auftragBox.style.display = "none";
+            finalSection.style.display = "block";
+
+            setTimeout(() => {
+                alert("Terminal schließt.");
+                window.close();
+            }, 10000);
+        }
+    });
+});
