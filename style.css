@@ -1,117 +1,49 @@
-/* Grundlegendes Layout */
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  height: 100%;
-  width: 100%;
-  background-color: #0b0f19;
-  background-image: url('hintergrund.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  font-family: 'Roboto Mono', monospace;
-  color: white;
-}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenten-Mission Interface</title>
+  <!-- Monospace Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Animierter Hintergrund -->
+  <div id="background"></div>
 
-/* TOP SECRET Header */
-.topsecret {
-  font-size: 20px;
-  color: #ff2d2d;
-  letter-spacing: 3px;
-  text-align: center;
-  margin: 20px 0;
-}
+  <!-- TOP SECRET Header -->
+  <div class="topsecret">TOP SECRET – CLEARANCE LEVEL 4</div>
 
-/* Start-Rechteck */
-#startBox {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0,0,0,0.7);
-  backdrop-filter: blur(6px);
-  padding: 40px 60px;
-  text-align: center;
-  border-radius: 10px;
-  z-index: 100;
-}
+  <!-- Start-Rechteck -->
+  <div id="startBox">
+    <h1>Mission Start?</h1>
+    <button id="startButton">Codes lösen</button>
+  </div>
 
-#startBox h1 {
-  margin-bottom: 20px;
-}
+  <!-- Missions-Rechtecke, unsichtbar von Anfang an -->
+  <div id="missionContainer" style="display: none;">
+    <div class="missionBox">
+      <h2>MISSION BRIEFING</h2>
+      <p><strong>Ziel:</strong> Ungewöhnliche Aktivitätsmuster analysieren.<br>
+         <strong>Status:</strong> Eingestuft – Zugriff nur für autorisierte Agent:innen.<br>
+         <strong>Directive:</strong> Dekodiere die gesichteten Symbole und rekonstruiere die Ereigniskette.</p>
+    </div>
+    <div class="missionBox">
+      <h2>OPERATION ORDER</h2>
+      <ol>
+        <li>Phase I – Datenbeschaffung</li>
+        <li>Phase II – Musteranalyse</li>
+        <li>Phase III – Kryptologische Entschlüsselung</li>
+        <li>Phase IV – Bestätigung der Operation</li>
+        <li>Phase V – Abschlussbericht</li>
+      </ol>
+    </div>
+  </div>
 
-#startBox button {
-  padding: 12px 25px;
-  font-size: 16px;
-  cursor: pointer;
-  border: 1px solid #0a4fa3;
-  border-radius: 5px;
-  background-color: #0a4fa3;
-  color: white;
-  box-shadow: 0 0 10px #69a7ff55;
-  transition: all 0.2s ease-in-out;
-}
+  <!-- Optionales Noise Overlay für Scanlines/TV-Effekt -->
+  <div class="overlay-noise"></div>
 
-#startBox button:hover {
-  box-shadow: 0 0 20px #69a7ffaa;
-  transform: translateY(-2px);
-}
-
-/* Missions-Rechtecke */
-#missionContainer {
-  gap: 20px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 1200px;
-  z-index: 50;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.missionBox {
-  flex: 1;
-  min-width: 250px;
-  background-color: rgba(0,0,0,0.45);
-  backdrop-filter: blur(6px);
-  padding: 20px;
-  border-left: 3px solid #f5c518;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.missionBox h2 {
-  margin-top: 0;
-}
-
-/* Optionales Overlay für Noise/TV-Effect */
-.overlay-noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: url('static-noise.png'); /* optionales Noise-Bild */
-  opacity: 0.03;
-  mix-blend-mode: overlay;
-}
-
-/* Optional Typing-Animation (falls du später Text animieren willst) */
-.typing {
-  overflow: hidden;
-  border-right: .15em solid #fff;
-  white-space: nowrap;
-  animation: typing 3s steps(30,end), blink .7s infinite;
-}
-
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink {
-  0%, 50%, 100% { border-color: transparent }
-  25%, 75% { border-color: white }
-}
+  <script src="script.js"></script>
+</body>
+</html>
