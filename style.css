@@ -1,37 +1,30 @@
-/* Grundlegendes Layout */
+/* Grundlayout */
 html, body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   height: 100%;
   width: 100%;
-  font-family: sans-serif; /* Standard-Schriftart */
+  font-family: sans-serif;
   color: white;
   background-color: black;
 }
 
-/* Animierter Hintergrund */
+/* Hintergrundbild proportional */
 #background {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 120%;
-  height: 120%;
-  transform: translate(-50%, -50%) scale(1.05);
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
   background-image: url('hintergrund.jpg');
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; /* proportional skalieren */
   z-index: -1;
-  animation: floatBackground 20s ease-in-out infinite alternate;
-}
-
-@keyframes floatBackground {
-  0%   { transform: translate(-50%, -50%) scale(1.05) translateX(0px) translateY(0px); }
-  25%  { transform: translate(-52%, -48%) scale(1.07) translateX(-20px) translateY(10px); }
-  50%  { transform: translate(-50%, -50%) scale(1.08) translateX(15px) translateY(-15px); }
-  75%  { transform: translate(-48%, -52%) scale(1.06) translateX(-10px) translateY(20px); }
-  100% { transform: translate(-50%, -50%) scale(1.05) translateX(0px) translateY(0px); }
 }
 
 /* Start-Rechteck */
@@ -40,7 +33,7 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(128,128,128,0.5); /* grau transparent */
+  background-color: rgba(128,128,128,0.5);
   padding: 40px 60px;
   text-align: center;
   border-radius: 10px;
@@ -84,8 +77,61 @@ html, body {
 .missionBox {
   flex: 1;
   min-width: 250px;
-  background-color: rgba(128,128,128,0.5); /* grau transparent */
+  background-color: rgba(128,128,128,0.5);
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
+}
+
+/* Puzzle-Kästchen */
+#puzzleContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.puzzleBox {
+  background-color: rgba(128,128,128,0.5);
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 250px;
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.puzzleImage {
+  width: 100%;
+  height: 100px;
+  background-color: #0a4fa3;
+}
+
+.puzzleInput {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.puzzleInput input {
+  width: 50px;
+  padding: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.puzzleInput button {
+  padding: 5px 10px;
+  background-color: #0a4fa3;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.puzzleResult {
+  height: 20px;
+  font-weight: bold;
 }
