@@ -1,21 +1,22 @@
-/* Vollformat Hintergrundbild + Blau als Fallback */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center; /* horizontal zentrieren */
-    align-items: center;     /* vertikal zentrieren */
-    background-color: #1e68ff; /* Blau, falls Bild nicht geladen wird */
-    background-image: url('hintergrund.jpg'); /* Name deines Bildes */
-    background-size: cover;   /* Bild passt sich Bildschirmgröße an */
+    justify-content: center;
+    align-items: center;
+
+    /* Hintergrundbild + Blau als Fallback */
+    background-color: #1e68ff;
+    background-image: url('hintergrund.jpg');
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.4); /* leicht dunkler Hintergrund für Text */
+    background: rgba(0, 0, 0, 0.4); /* leicht transparent für bessere Lesbarkeit */
     padding: 40px 50px;
     border-radius: 12px;
     text-align: center;
