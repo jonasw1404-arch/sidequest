@@ -1,29 +1,30 @@
-let correctCodes = {
-    1: "1234",
-    2: "5678",
-    3: "2222",
-    4: "9999",
-    5: "0000"
-};
+document.addEventListener("DOMContentLoaded", function() {
+    const startScreen = document.getElementById("startScreen");
+    const codeContainer = document.getElementById("codeContainer");
+    const music = document.getElementById("backgroundMusic");
 
-document.getElementById("startButton").addEventListener("click", () => {
-    document.getElementById("startButton").classList.add("hidden");
-    document.getElementById("codeContainer").classList.remove("hidden");
+    document.getElementById("startButton").addEventListener("click", () => {
+        startScreen.classList.add("hidden");
+        codeContainer.classList.remove("hidden");
 
-    let music = document.getElementById("backgroundMusic");
-    music.volume = 0.5;
-    music.play();
+        music.volume = 0.5;
+        music.play();
+    });
 });
 
-function checkCode(field) {
-    let input = document.getElementById("code" + field).value;
-    let resultField = document.getElementById("result" + field);
+/* Codeprüfung für alle Felder */
 
-    if (input === correctCodes[field]) {
-        resultField.style.color = "lime";
-        resultField.textContent = "Code korrekt!";
+function checkCode(num) {
+    const input = document.getElementById("code" + num);
+    const msg = document.getElementById("msg" + num);
+
+    const correctCode = "5443";
+
+    if (input.value === correctCode) {
+        msg.style.color = "#00ff8c";
+        msg.textContent = "Code korrekt!";
     } else {
-        resultField.style.color = "red";
-        resultField.textContent = "Code inkorrekt!";
+        msg.style.color = "#ff4444";
+        msg.textContent = "Code inkorrekt!";
     }
 }
