@@ -3,7 +3,6 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #1e68ff;
     background-image: url('hintergrund.jpg');
     background-size: cover;
     background-position: center;
@@ -11,40 +10,69 @@ html, body {
     color: white;
 }
 
-.startScreen, .box {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 25px 35px;
-    border-radius: 12px;
+.startScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
     text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    max-width: 900px;
-    margin: 20px auto;
 }
 
-.startScreen button, .mainContainer button {
-    padding: 10px 20px;
-    font-size: 18px;
+.startScreen button {
+    padding: 15px 25px;
+    font-size: 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
-.puzzle {
-    margin-top: 30px;
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;
+    align-items: start;
 }
 
-.puzzle input {
+.box {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.puzzleItem {
+    background: rgba(0, 0, 0, 0.5);
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.puzzleItem input {
+    width: 100%;
     padding: 8px;
-    font-size: 16px;
-    width: 250px;
+    margin-top: 5px;
     border-radius: 5px;
     border: none;
-    margin-top: 5px;
+    font-size: 16px;
+}
+
+#submitCodes {
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 #feedback {
-    margin-top: 20px;
-    font-size: 18px;
+    margin-top: 15px;
     font-weight: bold;
+    font-size: 16px;
 }
