@@ -7,12 +7,12 @@ startButton.addEventListener('click', () => {
   missionContainer.style.display = 'flex';
 });
 
-// Codes prüfen
+// Prüfen der Codes
 const buttons = document.querySelectorAll('.checkButton');
 
 buttons.forEach(button => {
   button.addEventListener('click', () => {
-    const box = button.parentElement;
+    const box = button.closest('.missionBox');
     const input = box.querySelector('.codeInput');
     const result = box.querySelector('.result');
     const correctCode = input.dataset.code;
