@@ -15,8 +15,8 @@ html, body {
     background-repeat: no-repeat;
 }
 
-.container {
-    background: rgba(0, 0, 0, 0.4); /* leicht transparent für bessere Lesbarkeit */
+.startScreen, .container {
+    background: rgba(0, 0, 0, 0.4);
     padding: 40px 50px;
     border-radius: 12px;
     text-align: center;
