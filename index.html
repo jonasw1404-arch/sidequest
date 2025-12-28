@@ -1,112 +1,58 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sidequest Solo</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Start-Rechteck -->
-  <div id="startBox">
-    <h1>Mission Start?</h1>
-    <button id="startButton">Codes lösen</button>
-  </div>
 
-  <!-- Missions-Rechtecke -->
-  <div id="missionContainer" style="display: none;">
-
-    <!-- Erste Reihe: Mission + Auftrag -->
-    <div class="missionRow firstRow">
-      <div class="missionBox">
-        <h2>Mission Erklärung</h2>
-        <p>Deine Aufgabe ist es, das Geheimnis des Hintergrunds zu entdecken und den Code zu knacken.</p>
-      </div>
-      <div class="missionBox">
-        <h2>Auftrag</h2>
-        <ol>
-          <li>Hinweise sammeln</li>
-          <li>Rätsel lösen</li>
-          <li>Code entschlüsseln</li>
-          <li>Mission bestätigen</li>
-          <li>Bericht abgeben</li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- Zweite Reihe: 5 Rätsel -->
-    <div class="missionRow secondRow">
-
-      <!-- Rätsel 1 -->
-      <div class="missionBox">
-        <div class="content">
-          <h2>Rätsel 1: Zahlenzauber</h2>
-          <p>Finde die versteckte Zahlenkombination im Hintergrund und entschlüssele sie.</p>
+<div id="app">
+    <section id="screen-howto" class="screen active">
+        <div class="glass-card">
+            <h1>🕵️‍♂️ Sidequest</h1>
+            <p>Erfülle Aufgaben im echten Leben, ohne dass es jemand merkt.</p>
+            <div class="reward-list">
+                <div class="reward-item"><span>🟢 Leicht</span> <span>+5 Pkt</span></div>
+                <div class="reward-item"><span>🟡 Mittel</span> <span>+10 Pkt</span></div>
+                <div class="reward-item"><span>🔴 Schwer</span> <span>+20 Pkt</span></div>
+            </div>
+            <p class="hint">Rechts klicken: Erledigt ✅<br>Links klicken: Neue Karte (-2 Pkt) ❌</p>
+            <button class="btn-primary" onclick="startGame()">Starten</button>
         </div>
-        <div class="codeContainer">
-          <input type="password" maxlength="4" placeholder="****" class="codeInput" data-code="1234">
-          <button class="checkButton">OK</button>
-        </div>
-        <p class="result"></p>
-      </div>
+    </section>
 
-      <!-- Rätsel 2 -->
-      <div class="missionBox">
-        <div class="content">
-          <h2>Rätsel 2: Farbcode</h2>
-          <p>Die Farben verraten dir Hinweise. Kombiniere sie richtig, um weiterzukommen.</p>
+    <section id="screen-game" class="screen">
+        <div class="header">
+            <div class="score-badge">Punkte: <span id="display-score">0</span></div>
         </div>
-        <div class="codeContainer">
-          <input type="password" maxlength="4" placeholder="****" class="codeInput" data-code="5678">
-          <button class="checkButton">OK</button>
-        </div>
-        <p class="result"></p>
-      </div>
+        
+        <div id="card-container"></div>
 
-      <!-- Rätsel 3 -->
-      <div class="missionBox">
-        <div class="content">
-          <h2>Rätsel 3: Logikrätsel</h2>
-          <p>Analysiere die Hinweise und löse das logische Puzzle, um den nächsten Schritt zu erhalten.</p>
+        <div class="footer">
+            <button class="btn-danger" onclick="endGameRequest()">Spiel beenden</button>
         </div>
-        <div class="codeContainer">
-          <input type="password" maxlength="4" placeholder="****" class="codeInput" data-code="9012">
-          <button class="checkButton">OK</button>
-        </div>
-        <p class="result"></p>
-      </div>
+    </section>
 
-      <!-- Rätsel 4 -->
-      <div class="missionBox">
-        <div class="content">
-          <h2>Rätsel 4: Symbolsuche</h2>
-          <p>Bestimmte Symbole geben dir den Code. Finde alle und setze sie korrekt zusammen.</p>
-        </div>
-        <div class="codeContainer">
-          <input type="password" maxlength="4" placeholder="****" class="codeInput" data-code="3456">
-          <button class="checkButton">OK</button>
-        </div>
-        <p class="result"></p>
-      </div>
+    <section id="screen-review" class="screen">
+        <h2>Review ⚖️</h2>
+        <p>Tippe auf Aufgaben, die du doch nicht geschafft hast:</p>
+        <div id="review-list"></div>
+        <button class="btn-primary" onclick="showFinalResult()">Punkte bestätigen</button>
+    </section>
 
-      <!-- Rätsel 5 -->
-      <div class="missionBox">
-        <div class="content">
-          <h2>Rätsel 5: Geheimschrift</h2>
-          <p>Entschlüssle die mysteriöse Nachricht, die dir den finalen Code verrät.</p>
+    <section id="screen-result" class="screen">
+        <div class="glass-card">
+            <h2>Endergebnis</h2>
+            <div id="final-score-display" class="final-score">0</div>
+            <p>Punkte erreicht!</p>
+            <button class="btn-primary" onclick="location.reload()">Neustart</button>
         </div>
-        <div class="codeContainer">
-          <input type="password" maxlength="4" placeholder="****" class="codeInput" data-code="7890">
-          <button class="checkButton">OK</button>
-        </div>
-        <p class="result"></p>
-      </div>
+    </section>
+</div>
 
-    </div>
-
-  </div>
-
-  <script src="script.js"></script>
-  <audio id="bgMusic" src="musik.mp3" autoplay loop></audio>
+<script src="script.js"></script>
 </body>
 </html>
+
