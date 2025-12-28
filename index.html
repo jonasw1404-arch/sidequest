@@ -251,4 +251,86 @@ function onDrag(e) {
 
 function endDrag() {
     if (!isDragging) return;
-    isDragging =
+    isDragging = false;
+    const topCard = document.querySelector('.card:first-child');
+    topCard.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+    
+    if (currentTranslateX > 100) {
+        // SWIPE RECHTS -> ERLEDIGT
+        topCard.style.transform = 'translateX(200%) rotate(45deg)';
+        setTimeout(() => handleAction(true), 300);
+    } else if (currentTranslateX < -100) {
+        // SWIPE LINKS -> NEUE KARTE
+        topCard.style.transform = 'translateX(-200%) rotate(-45deg)';
+        setTimeout(() => handleAction(false), 300);
+    } else {
+        // ZURÜCK IN DIE MITTE
+        topCard.style.transform = 'translateX(0) rotate(0)';
+        topCard.style.backgroundColor = "var(--card-bg)";
+    }
+    
+    document.removeEventListener('mousemove', onDrag);
+    document.removeEventListener('touchmove', onDrag);
+    currentTranslateX = 0;
+}
+
+function handleAction(success) {
+    const card = cards.shift();
+    if (success) {
+        score += (card.type === 'easy' ? 5 : card.type === 'medium' ? 10 : 20);
+        doneChallenges.push(card);
+    } else {
+        score -= 2;
+    }
+    // Neue Karte vom gleichen Level hinzufügen, damit immer 6 da sind
+    cards.push({ type: card.type, text: getNewQuest(card.type) });
+    updateUI();
+    renderCards();
+}
+
+function updateUI() {
+    const el = document.getElementById('display-score');
+    if (el) el.innerText = score;
+}
+
+function endGameRequest() {
+    showScreen('screen-review');
+    const list = document.getElementById('review-list');
+    list.innerHTML = "";
+    doneChallenges.forEach((card, index) => {
+        const div = document.createElement('div');
+        div.className = "review-item";
+        div.id = `review-${index}`;
+        div.innerHTML = `<span>${card.text}</span> <button class="btn-del" onclick="toggleRemove(${index})">X</button>`;
+        list.appendChild(div);
+    });
+}
+
+function toggleRemove(index) {
+    const item = document.getElementById(`review-${index}`);
+    const card = doneChallenges[index];
+    const val = (card.type === 'easy' ? 5 : card.type === 'medium' ? 10 : 20);
+    
+    if (item.classList.contains('removed')) {
+        item.classList.remove('removed');
+        score += val;
+    } else {
+        item.classList.add('removed');
+        score -= val;
+    }
+    updateUI();
+}
+
+function showFinalResult() {
+    showScreen('screen-result');
+    document.getElementById('final-score-display'); // Falls nötig
+    document.getElementById('final-score').innerText = score;
+}
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
