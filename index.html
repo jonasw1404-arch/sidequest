@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sidequest Solo - 6 Cards</title>
+    <title>Sidequest Solo - Ultimate</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -18,12 +18,13 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             height: 100vh;
             overflow: hidden;
+            touch-action: none;
         }
 
         #app {
@@ -45,7 +46,7 @@
         .screen.active { display: flex; }
 
         /* HEADER */
-        .header { display: flex; justify-content: center; padding: 10px; }
+        .header { display: flex; justify-content: center; padding: 10px; z-index: 100; }
         .score-badge {
             background: var(--card-bg);
             padding: 8px 20px;
@@ -53,134 +54,150 @@
             border: 1px solid var(--accent);
             color: var(--accent);
             font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        /* KARTEN-STAPEL (6 Karten) */
+        /* KARTEN-STAPEL */
         #card-container {
             position: relative;
             flex-grow: 1;
-            margin: 40px 20px 100px 20px;
+            margin: 20px 10px 80px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .card {
             position: absolute;
-            width: 100%;
-            height: 380px;
+            width: 90%;
+            height: 70vh;
+            max-height: 450px;
             background: var(--card-bg);
-            border-radius: 24px;
-            padding: 25px;
+            border-radius: 28px;
+            padding: 30px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-            border: 4px solid #475569;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 6px solid #475569;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: grab;
             user-select: none;
+            touch-action: none;
         }
 
         .card.easy { border-color: var(--easy); }
         .card.medium { border-color: var(--medium); }
         .card.hard { border-color: var(--hard); }
 
-        .card-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; }
+        .card-text { font-size: 1.5rem; font-weight: 700; pointer-events: none; line-height: 1.3; }
+        .card-lvl { position: absolute; top: 25px; font-size: 0.8rem; opacity: 0.6; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Dynamischer Stapel-Effekt für 6 Karten */
-        .card:nth-child(1) { z-index: 6; transform: translateY(0) scale(1); opacity: 1; }
-        .card:nth-child(2) { z-index: 5; transform: translateY(12px) scale(0.97); opacity: 0.9; }
-        .card:nth-child(3) { z-index: 4; transform: translateY(24px) scale(0.94); opacity: 0.8; }
-        .card:nth-child(4) { z-index: 3; transform: translateY(36px) scale(0.91); opacity: 0.7; }
-        .card:nth-child(5) { z-index: 2; transform: translateY(48px) scale(0.88); opacity: 0.6; }
-        .card:nth-child(6) { z-index: 1; transform: translateY(60px) scale(0.85); opacity: 0.5; }
+        /* Stapel-Effekt für 6 Karten */
+        .card:nth-child(1) { z-index: 6; transform: translate3d(0, 0, 0); }
+        .card:nth-child(2) { z-index: 5; transform: translate3d(0, 10px, 0) scale(0.96); opacity: 0.9; }
+        .card:nth-child(3) { z-index: 4; transform: translate3d(0, 20px, 0) scale(0.92); opacity: 0.8; }
+        .card:nth-child(4) { z-index: 3; transform: translate3d(0, 30px, 0) scale(0.88); opacity: 0.7; }
+        .card:nth-child(5) { z-index: 2; transform: translate3d(0, 40px, 0) scale(0.84); opacity: 0.6; }
+        .card:nth-child(6) { z-index: 1; transform: translate3d(0, 50px, 0) scale(0.80); opacity: 0.5; }
 
-        /* Swipe-Animationen */
-        .swipe-right { transform: translateX(200%) rotate(30deg) !important; opacity: 0 !important; }
-        .swipe-left { transform: translateX(-200%) rotate(-30deg) !important; opacity: 0 !important; }
-
-        /* BUTTONS */
-        .btn-primary { background: var(--accent); color: #000; border: none; padding: 15px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; }
-        .btn-danger { background: #334155; color: white; border: none; padding: 12px; border-radius: 12px; width: 100%; cursor: pointer; margin-top: 10px; }
+        /* FOOTER */
+        .footer { padding: 20px; z-index: 100; }
+        .btn-primary { background: var(--accent); color: #000; border: none; padding: 18px; border-radius: 20px; font-weight: bold; width: 100%; cursor: pointer; font-size: 1.1rem; }
+        .btn-danger { background: #334155; color: white; border: none; padding: 14px; border-radius: 16px; width: 100%; cursor: pointer; margin-top: 10px; font-weight: bold; opacity: 0.8; }
 
         /* REVIEW */
-        .review-item {
-            background: var(--card-bg);
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            border-left: 4px solid var(--accent);
-        }
-        .review-item.removed { opacity: 0.3; text-decoration: line-through; }
+        .review-item { background: var(--card-bg); padding: 15px; margin-bottom: 10px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid var(--accent); }
+        .review-item.removed { opacity: 0.2; text-decoration: line-through; border-left-color: #475569; }
+        .btn-del { background: var(--hard); border: none; color: white; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="app">
     <section id="screen-howto" class="screen active">
-        <div style="text-align:center; margin-top:20%">
-            <h1>🕵️‍♂️ Sidequest Solo</h1>
-            <p>6 Quests gleichzeitig. Erfülle sie heimlich!</p>
-            <p>Rechts: Erledigt ✅ | Links: Wegwerfen (-2) ❌</p>
-            <button class="btn-primary" onclick="startGame()">Spiel starten</button>
+        <div style="text-align:center; margin-top:20%; padding: 20px;">
+            <h1 style="font-size: 3rem; margin-bottom: 10px;">🕵️‍♂️ Sidequest</h1>
+            <p style="opacity: 0.7; font-size: 1.1rem;">Das geheime Spiel für Zwischendurch.</p>
+            <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 24px; margin: 30px 0; text-align: left;">
+                <p>✅ <b>Swipe RECHTS:</b> Erfüllt!</p>
+                <p>❌ <b>Swipe LINKS:</b> Neue Karte (-2 Pkt)</p>
+                <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.6;">Du hast immer 6 Karten zur Auswahl. Entscheide weise, welche du versuchst.</p>
+            </div>
+            <button class="btn-primary" onclick="startGame()">SPIEL STARTEN</button>
         </div>
     </section>
 
     <section id="screen-game" class="screen">
         <div class="header">
-            <div class="score-badge">Score: <span id="display-score">0</span></div>
+            <div class="score-badge">Punkte: <span id="display-score">0</span></div>
         </div>
         <div id="card-container"></div>
-        <button class="btn-danger" onclick="endGameRequest()">Spiel beenden</button>
+        <div class="footer">
+            <button class="btn-danger" onclick="endGameRequest()">SPIEL BEENDEN</button>
+        </div>
     </section>
 
     <section id="screen-review" class="screen">
-        <h2>Prüfung ⚖️</h2>
-        <div id="review-list" style="overflow-y:auto; flex-grow:1;"></div>
-        <button class="btn-primary" onclick="showFinalResult()">Ergebnis anzeigen</button>
+        <h2 style="text-align: center;">Veto-Runde ⚖️</h2>
+        <p style="font-size: 0.9rem; text-align: center; opacity: 0.7; margin-bottom: 20px;">Tippe auf das X bei Aufgaben, die du doch nicht geschafft hast.</p>
+        <div id="review-list" style="overflow-y:auto; flex-grow:1; padding-right: 5px;"></div>
+        <button class="btn-primary" onclick="showFinalResult()">SCORE BESTÄTIGEN</button>
     </section>
 
     <section id="screen-result" class="screen">
-        <div style="text-align:center; margin-top:20%">
-            <h2>Dein Endergebnis</h2>
-            <h1 id="final-score" style="font-size:4rem; color:var(--accent)">0</h1>
-            <button class="btn-primary" onclick="location.reload()">Nochmal spielen</button>
+        <div style="text-align:center; margin-top:30%">
+            <h2 style="opacity: 0.8;">Dein Endergebnis:</h2>
+            <h1 id="final-score" style="font-size:6rem; color:var(--accent); margin: 10px 0;">0</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 40px;">Punkte erreicht!</p>
+            <button class="btn-primary" onclick="location.reload()">NEUSTART</button>
         </div>
     </section>
 </div>
 
 <script>
 const CHALLENGES = {
-    easy: ["Ohr kratzen", "Gurkensalat sagen", "Glas leer trinken", "Wetter erwähnen", "Gähnen", "Stuhl rücken", "Brille putzen", "Handy-Kichern", "Kinn streicheln", "Sitzposition ändern", "Summen", "Atem prüfen", "Taschentuch fragen", "Fuß tippen", "Uhr checken", "Dinge ordnen", "Haare richten", "Tief ausatmen", "Geburtstag fragen", "Ahhh sagen", "Ellenbogen kratzen", "Decke anstarren", "Display putzen", "Nacken kreisen", "Tasche suchen", "Bis 3 zählen", "Tatsächlich sagen", "Glas umstellen", "Beine strecken", "Etikett lesen", "Räuspern", "Ärmel zupfen", "Warm hier?", "Handy am Ohr", "Wippen", "Schuhe checken", "Lächeln", "Trommeln", "Interessant sagen", "Fenster zählen", "Lippe lecken", "Fluse weg", "Stimme ändern", "Beine kreuzen", "Geldbeutel-Check", "Lampe loben", "Finger knacken", "Getränk riechen", "Nicken", "Braue hoch", "Wie dem auch sei", "Spiegelbild", "Verrückt sagen", "Kopf stützen", "Quasi sagen", "Zehen bewegen", "Geht's gut?", "Tisch streicheln", "Kann man machen", "Ärmel riechen", "Knie klopfen", "Rhythmus tippen", "Glas halten", "Hunger fragen", "Feuerzeug-Spiel", "Stirn wischen", "Ist das neu?", "Muss ja", "Glas 1cm rücken", "Krümel weg", "Klassiker sagen", "Fenster gucken", "Hände reiben", "Links trinken", "Man kennt es", "Kinn kratzen", "Nägel prüfen", "Entchen summen", "Füllhöhe", "Glas pusten", "Socken richten", "Handy schütteln", "Das gehört?", "Puls checken", "Arm hoch", "Finger Schläfe", "Stuhl 90 Grad", "Ohr kneten", "Logischerweise", "Ring spielen", "Hose klopfen", "Schwierig sagen", "Handfläche", "Nase atmen", "Glas auf Abdruck", "Nach hinten gucken", "Drei zählen", "Tisch säubern", "Wangen klopfen", "Handy-Check"],
-    medium: ["Kreis laufen", "Platz tauschen", "Flüstern", "Schlechter Witz Lacher", "Fabelhaft sagen", "Spinne sehen", "Zeit fragen", "Happy Birthday summen", "Wort wiederholen", "Fenster-Check", "Pfeifen im Ohr", "Hobby erklären", "Redewendung falsch", "Glas auf Boden", "Mücke fangen", "Toast-Geruch", "Selfie", "Story-Abbruch", "High-Five", "Kapuze auf", "Handy laut", "Geister-Frage", "Deja-vu", "3-Wort-Sätze", "Irritierter Blick", "3 Komplimente", "Laut trinken", "Songzeile", "Kerze anstarren", "Dino-Frage", "Krampf", "Wasser-Vortrag", "Promi-Look", "Tisch putzen", "Wild tippen", "Stimme ändern", "Kartenspiel?", "Jingle singen", "Kette entknoten", "Traum-Lüge", "Verabschieden", "Hüpfen", "Wasser fragen", "Zutaten lesen", "4-Liter-Lüge", "Erstes Haustier", "10s Starren", "Ecke zeigen", "Glas Kopf", "Alligator-Talk", "Antiquiert sagen", "Akustik loben", "Sternzeichen", "Spitzname", "Glas beidhändig", "Zombie-Plan", "Film-Vergleich", "Stift balancieren", "Serien-Tipp", "Rhythmisch husten", "Über-Lob", "App zeigen", "Promi-Treffen", "Holz-Check", "Ananas-Tattoo", "Gruppenfoto", "Instrument?", "Typisch ich", "Wort vergessen", "Eichhörnchen", "Monat?", "Zeh schläft", "Ente-Pferd", "Dehnen", "Pizza?", "Neues Wort", "Regen-Lüge", "Island-Wunsch", "Kaugummi", "WLAN?", "Farben-Check", "Ohren wackeln", "Peinlichster Moment", "Vegi-Tag", "Vorname-Bedeutung", "Blau fühlen", "Remote nutzen", "Bestes Geschenk", "Schlumpf-Ohrwurm", "Wettbewerb-Sieg", "Delfin-Fakt", "Getränk nass", "Schnurrbart", "Socken-Vortrag", "So! sagen", "Hut ziehen", "Bist du sauer?", "Akzent-Sätze", "Opa-Spruch", "Tja sagen"],
-    hard: ["Socken falsch rum", "Klopfen gehört", "5 Liegestütze", "Alle aufstehen", "Akzent (2 Min)", "Nasses Wasser Rede", "Boden setzen", "Schluckauf", "Langes High-Five", "Panik-Blick", "Handy suchen", "Luftgitarre", "Simulation", "Over sagen", "Ecke stehen", "Geist-SMS", "Stuhl-Versicherung", "Schuhe Hände", "Laut singen", "Brot-Wiki", "Schuh-Foto", "Namen vergessen", "Gabel-Lob", "Nur flüstern", "Unsichtbarer Streit", "Zeitreisender", "Alle singen", "Topf Hut", "Nur reimen", "Kein 'und'", "Hand halten", "Toaster-Entführung", "Zeitlupe trinken", "Haar riechen", "Majestät", "Chips-Wahrsagen", "Unsichtbarer Hund", "Macht-Spüren", "Spion", "Tiergeräusch", "Setzen verlernt", "La-Ola", "Glas exen", "Katzen-Talk", "Käse-Mond", "Pinguin-Talk", "Servietten-Krawatte", "Unsichtbare Brille", "Lebewesen retten", "Nur Fragen", "Erfundene Sprache", "Aura reinigen", "Tanz ohne Musik", "Stuhl-Biss", "Angst im Dunkeln", "Werwolf", "Schatten verkaufen", "Grüne Haare", "Socken lesen", "Sidequest-Phobie", "Farben hören", "Knie taufen", "Kaffeemaschine", "Rad erfunden", "Falscher Name", "Hut ziehen", "Löffel Nase", "König", "Atmen lernen", "Revier markieren", "Starren-Pause", "Weltuntergang", "Agenten-Frage", "Star Wars summen", "Runde-Angst", "Zwergen-Rechte", "Fremder Arm", "Schaufel suchen", "Pflanzen-Talk", "Wand-Laufen", "Luft-Kalorien", "Formel-1 Sound", "Geräte-Talk", "Gesicht-Leinwand", "Majestätisch gehen", "Fliege fangen", "Käse-Nase", "Freund-Beleidigung", "Ohnmacht", "Internet gelöscht", "Sind wir schon da?", "Menschen-Remote", "Schatten-Angst", "Socken-Leihe", "Gehirnzelle weg", "Hypnose", "Sauerstoff-Allergie", "Keks-Selfie", "Yoga-Pose", "Produkt verkaufen", "Fäden ziehen"]
+    easy: [
+        "Berühre unauffällig dreimal dein linkes Ohr.", "Sage in einem Satz das Wort 'Gurkensalat'.", "Trinke dein Glas in einem Zug leer.", "Stelle eine belanglose Frage über das Wetter.", "Gähne einmal laut und deutlich.", "Rücke deinen Stuhl zwei Mal hintereinander zurecht.", "Putze deine Brille oder reibe dir intensiv die Augen.", "Schau kurz auf dein Handy und kichere leise.", "Streichle dir nachdenklich über das Kinn.", "Verändere deine Sitzposition sehr auffällig.", "Summe für 5 Sekunden eine Melodie leise.", "Überprüfe unauffällig, ob dein Atem riecht.", "Frage in die Runde: 'Hat jemand mal ein Taschentuch?'", "Tippe fünfmal mit dem Fuß im Takt auf den Boden.", "Schau auf deine Uhr und schüttle kurz den Kopf.", "Ordne Gegenstände auf dem Tisch symmetrisch an.", "Fahre dir mit der Hand durch die Haare.", "Verschränke die Arme und atme tief aus.", "Frage jemanden: 'Wann hast du eigentlich Geburtstag?'", "Nimm einen Schluck und sage danach leise 'Ahhh'.", "Kratze dich am Ellenbogen.", "Schau für 10 Sekunden konzentriert an die Decke.", "Putze unauffällig mit dem Finger über dein Display.", "Lockere deinen Nacken durch Kreisen des Kopfes.", "Suche in deiner Tasche nach etwas, das nicht da ist.", "Zähle laut bis drei, bevor du etwas sagst.", "Benutze das Wort 'tatsächlich' zweimal in einem Satz.", "Stelle dein Getränk auf die andere Seite von dir.", "Strecke deine Beine lang unter dem Tisch aus.", "Lies ein Etikett einer Flasche aufmerksam durch.", "Räusper dich zwei Mal kurz hintereinander.", "Zupfe an deinem Ärmel herum.", "Frage: 'Ist es hier eigentlich wärmer geworden?'", "Halte dein Handy ans Ohr (ohne Anruf).", "Wippe für 20 Sekunden leicht mit dem Oberkörper.", "Prüfe, ob deine Schuhe fest sitzen.", "Lächele eine Person grundlos an.", "Trommle mit zwei Fingern kurz auf den Tisch.", "Sage: 'Interessant...' zu einer normalen Aussage.", "Zähle die Fenster im Raum.", "Berühre mit der Zunge deine Oberlippe.", "Puste eine imaginäre Fluse von der Schulter.", "Verstelle deine Stimme für ein Wort.", "Schlage die Beine drei Mal anders übereinander.", "Prüfe deinen Geldbeutel.", "Lobe das Design einer Lampe.", "Knacke mit einem Fingergelenk.", "Rieche kurz an deinem Getränk.", "Nicke drei Mal, während jemand anderes redet.", "Zieh deine Augenbrauen kurz hoch.", "Sage: 'Wie dem auch sei...'", "Prüfe dein Spiegelbild im Handy.", "Sage: 'Verrückt eigentlich.'", "Stütze deinen Kopf auf beide Hände.", "Sage das Wort 'quasi' in einem Satz.", "Bewege deine Zehen sichtbar.", "Frage: 'Geht's euch gut?'", "Streichle über die Tischkante.", "Sage: 'Kann man machen.'", "Rieche an deinem Ärmel.", "Klopfe leise auf dein Knie.", "Tippe mit dem Rhythmus eines Liedes gegen dein Glas.", "Halte dein Glas für 10 Sekunden fest, ohne zu trinken.", "Frage: 'Hat jemand Hunger?'", "Spiele kurz mit einem Feuerzeug.", "Wische dir über die Stirn.", "Frage jemanden: 'Ist das neu?'", "Sage: 'Muss ja, ne?'", "Rücke dein Glas 1cm nach links.", "Tu so als hättest du einen Krümel auf dem Shirt.", "Sage: 'Klassiker!'", "Guck 5 Sekunden aus dem Fenster.", "Reibe deine Handflächen aneinander.", "Nimm das Glas mit der linken Hand.", "Sage: 'Man kennt es.'", "Kratze dich am Kinn.", "Schau kurz auf dein Fingernägel.", "Summe den Ton von 'Alle meine Entchen'.", "Vergleiche die Füllhöhe von zwei Gläsern.", "Puste in dein leeres Glas.", "Rücke deine Socken zurecht.", "Schüttle dein Handy (schlechter Empfang).", "Frage: 'Habt ihr das auch gehört?'", "Überprüfe unauffällig deinen Puls.", "Strecke kurz einen Arm nach oben.", "Tippe dir mit dem Finger an die Schläfe.", "Stelle sicher, dass dein Stuhl 90 Grad zum Tisch steht.", "Knete kurz dein Ohrläppchen.", "Sag das Wort 'Logischerweise'.", "Spiel mit deinem Ring oder deiner Uhr.", "Klopfe Staub von deiner Hose.", "Sage: 'Schwierig.'", "Schau auf deine Handfläche (Notizen).", "Atme hörbar durch die Nase ein.", "Stelle dein Glas auf den alten Abdruck.", "Guck kurz hinter dich.", "Zähle laut bis 3.", "Säubere eine Stelle auf dem Tisch.", "Klopfe dir auf die Wangen.", "Guck auf dein Handy und kichere."
+    ],
+    medium: [
+        "Laufe einmal im Kreis durch den Raum.", "Tausche unauffällig den Platz.", "Flüstere eine belanglose Nachricht.", "Lache laut über einen schlechten Witz.", "Benutze 'fabelhaft' dreimal.", "Behaupte, du hättest eine Spinne gesehen.", "Frage nach der Zeit (Handy in der Hand).", "Summe 10 Sek. 'Happy Birthday'.", "Wiederhole das letzte Wort deines Vorredners als Frage.", "Geh zum Fenster, schau raus, komm kopfschüttelnd zurück.", "Behaupte, du hättest ein Pfeifen im Ohr.", "Erkläre 1 Min. ein fiktives Hobby.", "Benutze eine Redewendung falsch.", "Stelle dein Getränk auf den Boden.", "Klatsche plötzlich (Mücke fangen).", "Frage: 'Riecht es hier nach verbranntem Toast?'", "Mach ein Selfie mit jemandem im Hintergrund.", "Erzähle eine Geschichte, die mittendrin aufhört.", "Verlange ein High-Five.", "Setz dir 2 Min. eine Kapuze auf.", "Stelle Handy auf volle Lautstärke (Ton abspielen).", "Frage: 'Glaubt ihr an Geister?'", "Behaupte ein Déjà-vu zu haben.", "Sprich 1 Min. in 3-Wort-Sätzen.", "Guck jemanden irritiert an.", "Verteile 3 Komplimente.", "Trinke laut mit Strohhalm.", "Zitiere eine Songzeile.", "Halte eine brennende Kerze 10 Sek. an.", "Frage nach Lieblings-Dinosaurier.", "Tu so als hättest du einen Krampf.", "Vorteile von Leitungswasser erklären.", "Sage: 'Du siehst aus wie ein Promi'.", "Putze mit Serviette den Tisch.", "Tippe wild auf dem Handy.", "Verstelle deine Stimme für einen Satz.", "Frage nach Kartenspiel.", "Singe Werbe-Jingle.", "Bitte um Hilfe beim Kette entknoten.", "Behaupte von jemandem geträumt zu haben.", "Verabschiede dich (ohne zu gehen).", "Hüpfe einmal vor Energie.", "Frage nach Wasser (trotz vollem Glas).", "Lies Zutatenliste laut vor.", "Behaupte 4 Liter Wasser getrunken zu haben.", "Frage nach erstem Haustier.", "Starre jemanden 10 Sek. an.", "Zeig in eine leere Ecke.", "Stelle Glas auf den Kopf (leer).", "Alligator vs. Krokodil Diskussion.", "Benutze Wort 'Antiquiert'.", "Lobe die Akustik.", "Frage nach Sternzeichen.", "Gib jemandem einen Spitznamen.", "Halte Glas mit beiden Händen.", "Zombie-Apokalypse Überlebens-Check.", "Sage: 'Erinnert mich an Film XY'.", "Balanciere einen Stift auf dem Finger.", "Frage nach Serien-Empfehlung.", "Huste 3x im Rhythmus.", "Lobe jemanden übertrieben.", "Erzähle von nutzloser App.", "Behaupte Promi-Treffen.", "Holz-Check am Tisch.", "Ananas-Tattoo Idee erwähnen.", "Schlage Gruppenfoto vor.", "Frage nach Musikinstrumenten.", "Sage: 'Das ist typisch ich'.", "Vergiss ein einfaches Wort (Gabel).", "Eichhörnchen-Rettung erfinden.", "Frage nach Lieblings-Monat.", "Zeh ist eingeschlafen.", "Ente-Pferd-Frage stellen.", "Dehnübung machen.", "Frage nach Pizza.", "Neues Wort erfunden.", "Regen-Prognose abgeben.", "Island-Urlaub Wunsch.", "Kaugummi suchen.", "Frage nach WLAN-Passwort.", "Farben-Kompliment Kleidung.", "Ohren wackeln Versuch.", "Peinlicher Moment Frage.", "Vegetarier für 24h Idee.", "Bedeutung Vorname fragen.", "Sage: 'Fühle mich heute blau'.", "Imaginäre Fernbedienung nutzen.", "Bestes Geschenk Frage.", "Schlumpf-Ohrwurm.", "Wettbewerb-Sieg erfinden.", "Delfin-Fakt erzählen.", "Getränk ist besonders nass.", "Schnurrbart-Frage stellen.", "Vortrag über Vorteile von Socken.", "In die Hände klatschen und 'So!' sagen.", "Einen imaginären Hut ziehen.", "Jemanden fragen: 'Bist du sauer?'", "Einen Akzent für genau zwei Sätze nutzen.", "Sagen: 'Das hat mein Opa schon immer gesagt'.", "Lautes Ausatmen gefolgt von 'Tja'."
+    ],
+    hard: [
+        "Zieh Socken falsch herum an.", "Behaupte es hätte geklopft.", "5 Liegestütze mitten im Raum.", "Alle müssen kurz aufstehen.", "Sprich 2 Min. mit Akzent.", "Rede über nasses Wasser (30 Sek).", "Setz dich 1 Min. auf den Boden.", "30 Sek. Schluckauf vortäuschen.", "Hand 5 Sek. nach High-Five halten.", "Panischer Blick aus dem Fenster.", "Handy suchen (in der Hand).", "Luftgitarre spielen (15 Sek).", "Simulation-Theorie diskutieren.", "Sage nach jedem Satz 'Over'.", "In die Ecke stellen (1 Min).", "Geist-SMS behaupten.", "Stuhl-Versicherung verkaufen.", "Schuhe an den Händen tragen.", "Refrain laut singen.", "Wikipedia über Brot vorlesen.", "Foto von Schuhen machen wollen.", "Eignen Namen vergessen.", "Kompliment an eine Gabel.", "1 Min. lang flüstern.", "Streit mit unsichtbarer Person.", "Zeitreisender aus 1920 sein.", "Alle zum Singen bringen.", "Topf als Hut tragen.", "Nur in Reimen sprechen.", "Allergie gegen Wort 'und'.", "Hand halten (Angst).", "Toaster-Entführung erzählen.", "Zeitlupen-Trinken.", "Am Haar von jemandem riechen.", "Mit 'Eure Majestät' ansprechen lassen.", "Zukunft aus Chips lesen.", "Unsichtbarer Hund an Leine.", "Erschütterung der Macht spüren.", "Behaupte du bist Spion.", "Tiergeräusch machen.", "Setzen verlernt.", "La-Ola-Welle starten.", "Glas exen auf Kommando.", "Telepathie mit Katze.", "Mond aus Käse Theorie.", "Pinguin-Diskussion starten.", "Serviette als Krawatte.", "Unsichtbare Brille suchen.", "Lebewesen im Glas retten.", "Nur in Fragen sprechen.", "Erfundene Sprache sprechen.", "Aura reinigen lassen.", "Tanzen ohne Musik.", "Stuhl hat gebissen.", "Angst vor Dunkelheit.", "Werwolf-Verwandlung spielen.", "Schatten verkaufen.", "Haare grün färben Frage.", "Socken vorlesen.", "Phobie gegen 'Sidequest'.", "Farben hören.", "Knie taufen.", "Kaffeemaschinen-Geräusch.", "Rad erfunden.", "Falscher Name für Freunde.", "Unsichtbarer Hut ziehen.", "Löffel auf Nase.", "König eines Kleinstaates.", "Atmen lernen wollen.", "Territorium markieren.", "10 Sek. Gesprächspause & Starren.", "Weltuntergangs-Vision.", "Regierungs-Agent Frage.", "Star Wars summen.", "Angst vor runden Objekten.", "Gartenzwerg-Rechte.", "Linker Arm gehört wem anders.", "Schaufel suchen (vergraben).", "Interview mit Pflanze.", "Durch Wände gehen wollen.", "Luft-Kalorien zählen.", "Formel-1 Geräusch.", "Mit Geräten sprechen.", "Gesicht als Leinwand.", "Majestätisch schreiten.", "Fliege mit Stäbchen fangen.", "Käse-Alter riechen.", "Imaginärer Freund beleidigt.", "Dramatische Ohnmacht.", "Internet gelöscht.", "Sind wir schon da? (3x).", "Fernbedienung für Menschen.", "Angst vor eigenem Schatten.", "Socken ausleihen.", "Letzte Gehirnzelle verloren.", "Hypnotisieren versuchen.", "Allergie gegen Sauerstoff.", "Selfie mit Keks.", "Yoga-Pose für 10 Sekunden.", "Ein fiktives Produkt verkaufen.", "So tun, als würde man unsichtbare Fäden ziehen."
+    ]
 };
 
 let score = 0;
 let cards = [];
 let doneChallenges = [];
 let usedTexts = new Set();
+let isDragging = false;
+let startX = 0;
+let currentTranslateX = 0;
 
 function startGame() {
-    document.getElementById('screen-howto').classList.remove('active');
-    document.getElementById('screen-game').classList.add('active');
-    
-    // Initialer Stapel mit 6 Karten (Mix)
-    for(let i=0; i<2; i++) cards.push({type:'easy', text: getQuest('easy')});
-    for(let i=0; i<2; i++) cards.push({type:'medium', text: getQuest('medium')});
-    for(let i=0; i<2; i++) cards.push({type:'hard', text: getQuest('hard')});
-    
+    showScreen('screen-game');
+    // Initialer Stapel (immer 6 Karten: 2 leicht, 2 mittel, 2 schwer)
+    cards = [
+        { type: 'easy', text: getNewQuest('easy') },
+        { type: 'easy', text: getNewQuest('easy') },
+        { type: 'medium', text: getNewQuest('medium') },
+        { type: 'medium', text: getNewQuest('medium') },
+        { type: 'hard', text: getNewQuest('hard') },
+        { type: 'hard', text: getNewQuest('hard') }
+    ];
     renderCards();
 }
 
-function getQuest(lvl) {
+function getNewQuest(lvl) {
     const pool = CHALLENGES[lvl];
-    const avail = pool.filter(t => !usedTexts.has(t));
-    const finalPool = avail.length > 0 ? avail : pool;
-    const picked = finalPool[Math.floor(Math.random() * finalPool.length)];
+    const available = pool.filter(t => !usedTexts.has(t));
+    const list = available.length > 0 ? available : pool;
+    const picked = list[Math.floor(Math.random() * list.length)];
     usedTexts.add(picked);
     return picked;
 }
@@ -188,72 +205,50 @@ function getQuest(lvl) {
 function renderCards() {
     const container = document.getElementById('card-container');
     container.innerHTML = "";
-    
     cards.forEach((card, index) => {
         const div = document.createElement('div');
         div.className = `card ${card.type}`;
-        div.innerHTML = `<div class="card-text">${card.text}</div>
-                         <div class="card-ui"><span>❌ LINKS: WEG</span><span>RECHTS: ✅</span></div>`;
+        div.innerHTML = `
+            <div class="card-lvl">${card.type}</div>
+            <div class="card-text">${card.text}</div>
+        `;
         
-        div.onclick = (e) => {
-            if (index !== 0) return; // Nur oberste Karte
-            const rect = div.getBoundingClientRect();
-            const success = (e.clientX - rect.left) > rect.width / 2;
-            
-            div.classList.add(success ? 'swipe-right' : 'swipe-left');
-            setTimeout(() => handleAction(success), 300);
-        };
+        // Nur die oberste Karte kann man ziehen
+        if (index === 0) {
+            div.addEventListener('mousedown', startDrag);
+            div.addEventListener('touchstart', startDrag);
+        }
         container.appendChild(div);
     });
 }
 
-function handleAction(success) {
-    const card = cards.shift();
-    if (success) {
-        score += (card.type==='easy'?5 : card.type==='medium'?10 : 20);
-        doneChallenges.push(card);
-    } else {
-        score -= 2;
-    }
-    cards.push({type: card.type, text: getQuest(card.type)});
-    document.getElementById('display-score').innerText = score;
-    renderCards();
-}
-
-function endGameRequest() {
-    document.getElementById('screen-game').classList.remove('active');
-    document.getElementById('screen-review').classList.add('active');
-    const list = document.getElementById('review-list');
-    list.innerHTML = "";
-    doneChallenges.forEach((card, i) => {
-        const div = document.createElement('div');
-        div.className = "review-item";
-        div.id = `rev-${i}`;
-        div.innerHTML = `<span>${card.text}</span><button onclick="toggleRev(${i})" style="border:none; background:none; cursor:pointer;">❌</button>`;
-        list.appendChild(div);
-    });
-}
-
-function toggleRev(i) {
-    const item = document.getElementById(`rev-${i}`);
-    const card = doneChallenges[i];
-    const val = (card.type==='easy'?5 : card.type==='medium'?10 : 20);
+// SWIPE LOGIK
+function startDrag(e) {
+    isDragging = true;
+    startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    const topCard = document.querySelector('.card:first-child');
+    topCard.style.transition = 'none';
     
-    if(item.classList.contains('removed')) {
-        item.classList.remove('removed');
-        score += val;
-    } else {
-        item.classList.add('removed');
-        score -= val;
-    }
+    document.addEventListener('mousemove', onDrag);
+    document.addEventListener('touchmove', onDrag);
+    document.addEventListener('mouseup', endDrag);
+    document.addEventListener('touchend', endDrag);
 }
 
-function showFinalResult() {
-    document.getElementById('screen-review').classList.remove('active');
-    document.getElementById('screen-result').classList.add('active');
-    document.getElementById('final-score').innerText = score;
+function onDrag(e) {
+    if (!isDragging) return;
+    const x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    currentTranslateX = x - startX;
+    const topCard = document.querySelector('.card:first-child');
+    const rotate = currentTranslateX / 15;
+    topCard.style.transform = `translateX(${currentTranslateX}px) rotate(${rotate}deg)`;
+    
+    // Visuelles Feedback beim Ziehen
+    if (currentTranslateX > 50) topCard.style.backgroundColor = "rgba(34, 197, 94, 0.5)";
+    else if (currentTranslateX < -50) topCard.style.backgroundColor = "rgba(239, 68, 68, 0.5)";
+    else topCard.style.backgroundColor = "var(--card-bg)";
 }
-</script>
-</body>
-</html>
 
+function endDrag() {
+    if (!isDragging) return;
+    isDragging =
