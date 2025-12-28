@@ -3,56 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sidequest Solo</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Sidequest Solo - 6 Cards</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --easy: #22c55e;
+            --medium: #eab308;
+            --hard: #ef4444;
+            --text: #f1f5f9;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #app {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: 100%;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        .screen.active { display: flex; }
+
+        /* HEADER */
+        .header { display: flex; justify-content: center; padding: 10px; }
+        .score-badge {
+            background: var(--card-bg);
+            padding: 8px 20px;
+            border-radius: 100px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* KARTEN-STAPEL (6 Karten) */
+        #card-container {
+            position: relative;
+            flex-grow: 1;
+            margin: 40px 20px 100px 20px;
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 380px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 25px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border: 4px solid #475569;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .card.easy { border-color: var(--easy); }
+        .card.medium { border-color: var(--medium); }
+        .card.hard { border-color: var(--hard); }
+
+        .card-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; }
+
+        /* Dynamischer Stapel-Effekt für 6 Karten */
+        .card:nth-child(1) { z-index: 6; transform: translateY(0) scale(1); opacity: 1; }
+        .card:nth-child(2) { z-index: 5; transform: translateY(12px) scale(0.97); opacity: 0.9; }
+        .card:nth-child(3) { z-index: 4; transform: translateY(24px) scale(0.94); opacity: 0.8; }
+        .card:nth-child(4) { z-index: 3; transform: translateY(36px) scale(0.91); opacity: 0.7; }
+        .card:nth-child(5) { z-index: 2; transform: translateY(48px) scale(0.88); opacity: 0.6; }
+        .card:nth-child(6) { z-index: 1; transform: translateY(60px) scale(0.85); opacity: 0.5; }
+
+        /* Swipe-Animationen */
+        .swipe-right { transform: translateX(200%) rotate(30deg) !important; opacity: 0 !important; }
+        .swipe-left { transform: translateX(-200%) rotate(-30deg) !important; opacity: 0 !important; }
+
+        /* BUTTONS */
+        .btn-primary { background: var(--accent); color: #000; border: none; padding: 15px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; }
+        .btn-danger { background: #334155; color: white; border: none; padding: 12px; border-radius: 12px; width: 100%; cursor: pointer; margin-top: 10px; }
+
+        /* REVIEW */
+        .review-item {
+            background: var(--card-bg);
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            border-left: 4px solid var(--accent);
+        }
+        .review-item.removed { opacity: 0.3; text-decoration: line-through; }
+    </style>
 </head>
 <body>
 
 <div id="app">
     <section id="screen-howto" class="screen active">
-        <div class="glass-card">
-            <h1>🕵️‍♂️ Sidequest</h1>
-            <p>Erfülle Aufgaben im echten Leben, ohne dass es jemand merkt.</p>
-            <div class="reward-list">
-                <div class="reward-item"><span>🟢 Leicht</span> <span>+5 Pkt</span></div>
-                <div class="reward-item"><span>🟡 Mittel</span> <span>+10 Pkt</span></div>
-                <div class="reward-item"><span>🔴 Schwer</span> <span>+20 Pkt</span></div>
-            </div>
-            <p class="hint">Rechts klicken: Erledigt ✅<br>Links klicken: Neue Karte (-2 Pkt) ❌</p>
-            <button class="btn-primary" onclick="startGame()">Starten</button>
+        <div style="text-align:center; margin-top:20%">
+            <h1>🕵️‍♂️ Sidequest Solo</h1>
+            <p>6 Quests gleichzeitig. Erfülle sie heimlich!</p>
+            <p>Rechts: Erledigt ✅ | Links: Wegwerfen (-2) ❌</p>
+            <button class="btn-primary" onclick="startGame()">Spiel starten</button>
         </div>
     </section>
 
     <section id="screen-game" class="screen">
         <div class="header">
-            <div class="score-badge">Punkte: <span id="display-score">0</span></div>
+            <div class="score-badge">Score: <span id="display-score">0</span></div>
         </div>
-        
         <div id="card-container"></div>
-
-        <div class="footer">
-            <button class="btn-danger" onclick="endGameRequest()">Spiel beenden</button>
-        </div>
+        <button class="btn-danger" onclick="endGameRequest()">Spiel beenden</button>
     </section>
 
     <section id="screen-review" class="screen">
-        <h2>Review ⚖️</h2>
-        <p>Tippe auf Aufgaben, die du doch nicht geschafft hast:</p>
-        <div id="review-list"></div>
-        <button class="btn-primary" onclick="showFinalResult()">Punkte bestätigen</button>
+        <h2>Prüfung ⚖️</h2>
+        <div id="review-list" style="overflow-y:auto; flex-grow:1;"></div>
+        <button class="btn-primary" onclick="showFinalResult()">Ergebnis anzeigen</button>
     </section>
 
     <section id="screen-result" class="screen">
-        <div class="glass-card">
-            <h2>Endergebnis</h2>
-            <div id="final-score-display" class="final-score">0</div>
-            <p>Punkte erreicht!</p>
-            <button class="btn-primary" onclick="location.reload()">Neustart</button>
+        <div style="text-align:center; margin-top:20%">
+            <h2>Dein Endergebnis</h2>
+            <h1 id="final-score" style="font-size:4rem; color:var(--accent)">0</h1>
+            <button class="btn-primary" onclick="location.reload()">Nochmal spielen</button>
         </div>
     </section>
 </div>
 
-<script src="script.js"></script>
+<script>
+const CHALLENGES = {
+    easy: ["Ohr kratzen", "Gurkensalat sagen", "Glas leer trinken", "Wetter erwähnen", "Gähnen", "Stuhl rücken", "Brille putzen", "Handy-Kichern", "Kinn streicheln", "Sitzposition ändern", "Summen", "Atem prüfen", "Taschentuch fragen", "Fuß tippen", "Uhr checken", "Dinge ordnen", "Haare richten", "Tief ausatmen", "Geburtstag fragen", "Ahhh sagen", "Ellenbogen kratzen", "Decke anstarren", "Display putzen", "Nacken kreisen", "Tasche suchen", "Bis 3 zählen", "Tatsächlich sagen", "Glas umstellen", "Beine strecken", "Etikett lesen", "Räuspern", "Ärmel zupfen", "Warm hier?", "Handy am Ohr", "Wippen", "Schuhe checken", "Lächeln", "Trommeln", "Interessant sagen", "Fenster zählen", "Lippe lecken", "Fluse weg", "Stimme ändern", "Beine kreuzen", "Geldbeutel-Check", "Lampe loben", "Finger knacken", "Getränk riechen", "Nicken", "Braue hoch", "Wie dem auch sei", "Spiegelbild", "Verrückt sagen", "Kopf stützen", "Quasi sagen", "Zehen bewegen", "Geht's gut?", "Tisch streicheln", "Kann man machen", "Ärmel riechen", "Knie klopfen", "Rhythmus tippen", "Glas halten", "Hunger fragen", "Feuerzeug-Spiel", "Stirn wischen", "Ist das neu?", "Muss ja", "Glas 1cm rücken", "Krümel weg", "Klassiker sagen", "Fenster gucken", "Hände reiben", "Links trinken", "Man kennt es", "Kinn kratzen", "Nägel prüfen", "Entchen summen", "Füllhöhe", "Glas pusten", "Socken richten", "Handy schütteln", "Das gehört?", "Puls checken", "Arm hoch", "Finger Schläfe", "Stuhl 90 Grad", "Ohr kneten", "Logischerweise", "Ring spielen", "Hose klopfen", "Schwierig sagen", "Handfläche", "Nase atmen", "Glas auf Abdruck", "Nach hinten gucken", "Drei zählen", "Tisch säubern", "Wangen klopfen", "Handy-Check"],
+    medium: ["Kreis laufen", "Platz tauschen", "Flüstern", "Schlechter Witz Lacher", "Fabelhaft sagen", "Spinne sehen", "Zeit fragen", "Happy Birthday summen", "Wort wiederholen", "Fenster-Check", "Pfeifen im Ohr", "Hobby erklären", "Redewendung falsch", "Glas auf Boden", "Mücke fangen", "Toast-Geruch", "Selfie", "Story-Abbruch", "High-Five", "Kapuze auf", "Handy laut", "Geister-Frage", "Deja-vu", "3-Wort-Sätze", "Irritierter Blick", "3 Komplimente", "Laut trinken", "Songzeile", "Kerze anstarren", "Dino-Frage", "Krampf", "Wasser-Vortrag", "Promi-Look", "Tisch putzen", "Wild tippen", "Stimme ändern", "Kartenspiel?", "Jingle singen", "Kette entknoten", "Traum-Lüge", "Verabschieden", "Hüpfen", "Wasser fragen", "Zutaten lesen", "4-Liter-Lüge", "Erstes Haustier", "10s Starren", "Ecke zeigen", "Glas Kopf", "Alligator-Talk", "Antiquiert sagen", "Akustik loben", "Sternzeichen", "Spitzname", "Glas beidhändig", "Zombie-Plan", "Film-Vergleich", "Stift balancieren", "Serien-Tipp", "Rhythmisch husten", "Über-Lob", "App zeigen", "Promi-Treffen", "Holz-Check", "Ananas-Tattoo", "Gruppenfoto", "Instrument?", "Typisch ich", "Wort vergessen", "Eichhörnchen", "Monat?", "Zeh schläft", "Ente-Pferd", "Dehnen", "Pizza?", "Neues Wort", "Regen-Lüge", "Island-Wunsch", "Kaugummi", "WLAN?", "Farben-Check", "Ohren wackeln", "Peinlichster Moment", "Vegi-Tag", "Vorname-Bedeutung", "Blau fühlen", "Remote nutzen", "Bestes Geschenk", "Schlumpf-Ohrwurm", "Wettbewerb-Sieg", "Delfin-Fakt", "Getränk nass", "Schnurrbart", "Socken-Vortrag", "So! sagen", "Hut ziehen", "Bist du sauer?", "Akzent-Sätze", "Opa-Spruch", "Tja sagen"],
+    hard: ["Socken falsch rum", "Klopfen gehört", "5 Liegestütze", "Alle aufstehen", "Akzent (2 Min)", "Nasses Wasser Rede", "Boden setzen", "Schluckauf", "Langes High-Five", "Panik-Blick", "Handy suchen", "Luftgitarre", "Simulation", "Over sagen", "Ecke stehen", "Geist-SMS", "Stuhl-Versicherung", "Schuhe Hände", "Laut singen", "Brot-Wiki", "Schuh-Foto", "Namen vergessen", "Gabel-Lob", "Nur flüstern", "Unsichtbarer Streit", "Zeitreisender", "Alle singen", "Topf Hut", "Nur reimen", "Kein 'und'", "Hand halten", "Toaster-Entführung", "Zeitlupe trinken", "Haar riechen", "Majestät", "Chips-Wahrsagen", "Unsichtbarer Hund", "Macht-Spüren", "Spion", "Tiergeräusch", "Setzen verlernt", "La-Ola", "Glas exen", "Katzen-Talk", "Käse-Mond", "Pinguin-Talk", "Servietten-Krawatte", "Unsichtbare Brille", "Lebewesen retten", "Nur Fragen", "Erfundene Sprache", "Aura reinigen", "Tanz ohne Musik", "Stuhl-Biss", "Angst im Dunkeln", "Werwolf", "Schatten verkaufen", "Grüne Haare", "Socken lesen", "Sidequest-Phobie", "Farben hören", "Knie taufen", "Kaffeemaschine", "Rad erfunden", "Falscher Name", "Hut ziehen", "Löffel Nase", "König", "Atmen lernen", "Revier markieren", "Starren-Pause", "Weltuntergang", "Agenten-Frage", "Star Wars summen", "Runde-Angst", "Zwergen-Rechte", "Fremder Arm", "Schaufel suchen", "Pflanzen-Talk", "Wand-Laufen", "Luft-Kalorien", "Formel-1 Sound", "Geräte-Talk", "Gesicht-Leinwand", "Majestätisch gehen", "Fliege fangen", "Käse-Nase", "Freund-Beleidigung", "Ohnmacht", "Internet gelöscht", "Sind wir schon da?", "Menschen-Remote", "Schatten-Angst", "Socken-Leihe", "Gehirnzelle weg", "Hypnose", "Sauerstoff-Allergie", "Keks-Selfie", "Yoga-Pose", "Produkt verkaufen", "Fäden ziehen"]
+};
+
+let score = 0;
+let cards = [];
+let doneChallenges = [];
+let usedTexts = new Set();
+
+function startGame() {
+    document.getElementById('screen-howto').classList.remove('active');
+    document.getElementById('screen-game').classList.add('active');
+    
+    // Initialer Stapel mit 6 Karten (Mix)
+    for(let i=0; i<2; i++) cards.push({type:'easy', text: getQuest('easy')});
+    for(let i=0; i<2; i++) cards.push({type:'medium', text: getQuest('medium')});
+    for(let i=0; i<2; i++) cards.push({type:'hard', text: getQuest('hard')});
+    
+    renderCards();
+}
+
+function getQuest(lvl) {
+    const pool = CHALLENGES[lvl];
+    const avail = pool.filter(t => !usedTexts.has(t));
+    const finalPool = avail.length > 0 ? avail : pool;
+    const picked = finalPool[Math.floor(Math.random() * finalPool.length)];
+    usedTexts.add(picked);
+    return picked;
+}
+
+function renderCards() {
+    const container = document.getElementById('card-container');
+    container.innerHTML = "";
+    
+    cards.forEach((card, index) => {
+        const div = document.createElement('div');
+        div.className = `card ${card.type}`;
+        div.innerHTML = `<div class="card-text">${card.text}</div>
+                         <div class="card-ui"><span>❌ LINKS: WEG</span><span>RECHTS: ✅</span></div>`;
+        
+        div.onclick = (e) => {
+            if (index !== 0) return; // Nur oberste Karte
+            const rect = div.getBoundingClientRect();
+            const success = (e.clientX - rect.left) > rect.width / 2;
+            
+            div.classList.add(success ? 'swipe-right' : 'swipe-left');
+            setTimeout(() => handleAction(success), 300);
+        };
+        container.appendChild(div);
+    });
+}
+
+function handleAction(success) {
+    const card = cards.shift();
+    if (success) {
+        score += (card.type==='easy'?5 : card.type==='medium'?10 : 20);
+        doneChallenges.push(card);
+    } else {
+        score -= 2;
+    }
+    cards.push({type: card.type, text: getQuest(card.type)});
+    document.getElementById('display-score').innerText = score;
+    renderCards();
+}
+
+function endGameRequest() {
+    document.getElementById('screen-game').classList.remove('active');
+    document.getElementById('screen-review').classList.add('active');
+    const list = document.getElementById('review-list');
+    list.innerHTML = "";
+    doneChallenges.forEach((card, i) => {
+        const div = document.createElement('div');
+        div.className = "review-item";
+        div.id = `rev-${i}`;
+        div.innerHTML = `<span>${card.text}</span><button onclick="toggleRev(${i})" style="border:none; background:none; cursor:pointer;">❌</button>`;
+        list.appendChild(div);
+    });
+}
+
+function toggleRev(i) {
+    const item = document.getElementById(`rev-${i}`);
+    const card = doneChallenges[i];
+    const val = (card.type==='easy'?5 : card.type==='medium'?10 : 20);
+    
+    if(item.classList.contains('removed')) {
+        item.classList.remove('removed');
+        score += val;
+    } else {
+        item.classList.add('removed');
+        score -= val;
+    }
+}
+
+function showFinalResult() {
+    document.getElementById('screen-review').classList.remove('active');
+    document.getElementById('screen-result').classList.add('active');
+    document.getElementById('final-score').innerText = score;
+}
+</script>
 </body>
 </html>
 
